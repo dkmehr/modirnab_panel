@@ -1,14 +1,12 @@
 
 const env={
     // siteApi:'http://localhost:6026/api',
-    // siteApi:'https://fahaadmin.dkmehr.com/api',
-    siteApi:'https://admin.fahascrubs.com/api',
-    // siteApi:'https://zaradmin.dkmehr.com/api',
+    // siteApi:'https://admin.fahascrubs.com/api',
+    siteApi:'https://demofahaadmin.dkmehr.com/api',
     
     // siteApiUrl:'http://localhost:6026',
-    // siteApiUrl:'https://fahaadmin.dkmehr.com',
-    siteApiUrl:'https://admin.fahascrubs.com',
-    // siteApiUrl:'https://zaradmin.dkmehr.com',
+    // siteApiUrl:'https://admin.fahascrubs.com',
+    siteApiUrl:'https://demofahaadmin.dkmehr.com',
     cookieName:'faha-login',
     //cookieName:'panel-login',
     //cookieName:'mehr-login',
