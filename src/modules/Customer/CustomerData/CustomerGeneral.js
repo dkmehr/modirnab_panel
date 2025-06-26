@@ -12,10 +12,12 @@ import DatePickerSingle from "../../../components/Button/DatePickerSingle";
 function CustomerGeneral(props) {
   const userData = props.userData;
   const token = props.token;
-  const [formData, setFormData] = useState({ active: "false" }); // Initialize active as a string
+  const [formData, setFormData] = useState({
+    active: userData && userData.active,
+    business: userData && userData.business,
+  }); // Initialize active as a string
   const [error, setError] = useState({ errorText: "", errorColor: "brown" });
   const [formalShow, setFormal] = useState(0);
-  console.log(props.groupList);
   useEffect(() => {
     // Initialize formData.active with userData.active when userData changes
     if (userData && userData.active) {
@@ -173,13 +175,19 @@ function CustomerGeneral(props) {
       active: formData.active === "false" ? "true" : "false", // Toggle between "true" and "false"
     }));
   };
+  const businessStatusHandler = () => {
+    setFormData((prevState) => ({
+      ...prevState,
+      business: formData.business === "false" ? "true" : "false", // Toggle between "true" and "false"
+    }));
+  };
   const realOrJuridical = () => {
     setFormData((prevState) => ({
       ...prevState,
       activity: formData.activity === "false" ? "true" : "false", // Toggle between "true" and "false"
     }));
   };
-
+  console.log(formData.business);
   if (!userData) return <div className="general-page">{env.loader}</div>;
   else
     return (
@@ -314,8 +322,8 @@ function CustomerGeneral(props) {
 
             <span style={{ whiteSpace: "pre-wrap" }}></span>
 
-            <div className="dense-btn">
-              <label htmlFor="view">
+            <div className="dense-btn" style={{ marginRight: "1rem" }}>
+              <label htmlFor="view" style={{ margin: "0" }}>
                 {/* Text indicating the radio button */}
                 {formtrans.status[props.lang]}
               </label>
@@ -323,11 +331,36 @@ function CustomerGeneral(props) {
                 className="switch-input"
                 type="checkbox"
                 id="view"
-                defaultChecked={userData.active === true ? true : false}
+                checked={formData.active === true || formData.active === "true"}
+                defaultChecked={
+                  userData.active === true || userData.active === "true"
+                }
                 onClick={activityStatusHandler}
               />
               <label
                 htmlFor="view"
+                className={true ? "switch-label" : "switch-label disable-label"}
+              ></label>
+            </div>
+            <div className="dense-btn" style={{ marginRight: "1rem" }}>
+              <label htmlFor="business" style={{ margin: "0" }}>
+                {/* Text indicating the radio button */}
+                {"همکار"}
+              </label>
+              <input
+                className="switch-input"
+                type="checkbox"
+                id="business"
+                checked={
+                  formData.business === true || formData.business === "true"
+                }
+                defaultChecked={
+                  userData.business === true || userData.business === "true"
+                }
+                onClick={businessStatusHandler}
+              />
+              <label
+                htmlFor="business"
                 className={true ? "switch-label" : "switch-label disable-label"}
               ></label>
             </div>

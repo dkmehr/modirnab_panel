@@ -1,79 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import env from "../../env";
 import ManageUser from "./ManageUser";
 import { useNavigate } from "react-router-dom";
-
+import PostReq from "../../utils/PostReq";
 function OrderHeader(props) {
   const navigate = useNavigate();
   const token = props.token;
   const [showDrop, setShowDrop] = useState(0);
-  const [showProduct, setShowProduct] = useState(0);
   const [showUsers, setShowUsers] = useState(0);
+  const updateGrid = (value) => {
+    props.setGrid(value);
+    var shopVar = JSON.parse(localStorage.getItem(env.shopExpert));
+    shopVar
+      ? localStorage.setItem(
+          env.shopExpert,
+          JSON.stringify({
+            ...shopVar,
+            grid: value,
+          })
+        )
+      : localStorage.setItem(
+          env.shopExpert,
+          JSON.stringify({
+            grid: value,
+          })
+        );
+  };
   const [customers, setCustomers] = useState();
-  const [ProductList,setProductList]=useState("")
-  const ProductInfo=props.ProductInfo
-  const setProductInfo=props.setProductInfo
-  const findCustomer = (search) => {
-    if (search.length < 3) {
-      //setShowPop(0)
-      return;
+  const findCustomer = async (search) => {
+    if (!search || search.length < 3) return;
+    const result = await PostReq({
+      method: "Post",
+      url: "/panel/faktor/customer-find",
+      body: { search: search },
+    });
+    setCustomers(result.customers);
+  };
+  const setPay = (customer) => {
+    if (customer.CustomerID) {
+      props.setPayValue(3);
+    } else {
+      props.setPayValue(4);
     }
-    //console.log(search)
-    const postOptions = {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token && token.token,
-        userId: token && token.userId,
-      },
-      body: JSON.stringify({ search: search }),
-    };
-    fetch(env.siteApi + "/panel/faktor/customer-find", postOptions)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          if (result.customers)
-            if (result.error) {
-              props.setError({ message: result.error, color: "brown" });
-            } else {
-              setCustomers(result.customers);
-            }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
   };
-  const findProduct = (search) => {
-    
-    const postOptions = {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token && token.token,
-        userId: token && token.userId,
-      },
-      body: JSON.stringify({ search: search }),
-    };
-    fetch(env.siteApi + "/esale/list-product", postOptions)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setProductList(result)
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
-  const gotToOpenOrders = () => {
-    navigate("/orders/open");
-  };
+
   return (
     <div className="nav-bar">
-      <div className="logo-wrapper">
-        <img src="\img\zar-logo.PNG" alt="Logo" />
-      </div>
+      <p>سفارشات</p>
       {props.user ? (
         <div className="f-customer">
           <div className="user-item">
@@ -97,13 +70,13 @@ function OrderHeader(props) {
             onClick={() => props.setUser("")}
           ></i>
         </div>
-      ) : (<>
+      ) : (
         <div className="f-customer">
           <input
             type="search"
             name=""
             id="f-search"
-            placeholder="مشتری"
+            placeholder="همه"
             onChange={(e) => findCustomer(e.target.value)}
             onFocus={() => setShowDrop(1)}
             onBlur={() => setTimeout(() => setShowDrop(0), 200)}
@@ -114,53 +87,52 @@ function OrderHeader(props) {
             onClick={() => setShowUsers(1)}
           ></i>
         </div>
-        
-        </>
       )}
-      {props.user ?(<></>):
-        ProductInfo?
-        <div className="f-customer">
-          <div className="user-item">
-            <b>
-              {ProductInfo.title}
-              
-
-              <small>
-                ({ProductInfo.sku})
-              </small>
-            </b>
-            
-          </div>
-          <i
-            className="fa-solid fa-remove"
-            style={{ margin: "0", color: "#000" }}
-            onClick={() => props.setProductInfo("")}
-          ></i>
-        </div>:
-        
-        <div className="f-customer">
-          <input
-            type="search"
-            name=""
-            id="p-search"
-            placeholder="جستجوی اتیکت"
-            onChange={(e) => findProduct(e.target.value)}
-            onFocus={() => setShowProduct(1)}
-            onBlur={() => setTimeout(() => setShowProduct(0), 200)}
-          />
-          <i
-            className="fa-solid fa-search"
-            style={{ margin: "0", color: "#000" }}
-          ></i>
-        </div>}
+      {/*<button onClick={() => gotToOpenOrders()} className="view-open-order">
+        سفارشهای باز
+      </button>*/}
+      <div className="view-btn-wrapper">
+        <label
+          htmlFor="list-view"
+          className={props.grid ? "list-btn view-active" : "list-btn"}
+          onClick={() => updateGrid(1)}
+        >
+          <i className="fa-solid fa-list no-font"></i>
+        </label>
+        <input type="radio" name="view" id="list-view" />
+        <label
+          htmlFor="tile-view"
+          className={props.grid ? "tile-btn" : "tile-btn view-active"}
+          onClick={() => updateGrid(0)}
+        >
+          <i className="fa-solid fa-table no-font"></i>
+        </label>
+        <input type="radio" name="view" id="tile-view" />
+      </div>
       {showDrop ? (
         <div className="f-customer-dropdpwn">
           {customers &&
             customers.map((customer, i) => (
               <div
-                className="menu-item"
+                className={`menu-item${customer.canSubmit ? "" : " disabled"}`}
+                // className="menu-item"
                 key={i}
-                onClick={() => {props.setUser(customer);props.setProductInfo("")}}
+                onClick={
+                  customer.canSubmit
+                    ? () => {
+                        props.setUser(customer);
+                        setPay(customer);
+                      }
+                    : undefined
+                }
+                // onClick={() => {
+                //   props.setUser(customer);
+                //   setPay(customer);
+                // }}
+                style={{
+                  cursor: customer.canSubmit ? "pointer" : "not-allowed",
+                  opacity: customer.canSubmit ? 1 : 0.5,
+                }}
               >
                 <p className="bu-name">
                   {customer.username}
@@ -177,10 +149,31 @@ function OrderHeader(props) {
                 <div className="info-holder col">
                   <span>
                     <i
+                      className="fa-solid fa-credit-card no-font id-icon"
+                      aria-hidden="true"
+                    ></i>
+                    {customer.meliCode ? customer.meliCode : "........"}
+                  </span>
+                  <span>
+                    <i
                       className="fa-solid fa-phone no-font id-icon"
                       aria-hidden="true"
                     ></i>
                     {customer.phone ? customer.phone : "........"}
+                  </span>
+                  <span>
+                    <i
+                      className="fa-solid fa-certificate no-font id-icon"
+                      aria-hidden="true"
+                    ></i>
+                    {customer.roleId ? customer.roleId : "........"}
+                  </span>
+                  <span>
+                    <i
+                      className="fa-solid fa-location-arrow no-font id-icon"
+                      aria-hidden="true"
+                    ></i>
+                    {customer.PostalCode ? customer.PostalCode : "........"}
                   </span>
                 </div>
                 <p className="bu-address">
@@ -192,36 +185,11 @@ function OrderHeader(props) {
       ) : (
         <></>
       )}
-      {!0 ? (
-              <div className="f-customer-dropdpwn">
-                {ProductList &&
-                  ProductList.data.map((product, i) => (
-                    <div
-                      className="menu-item"
-                      key={i}
-                      onClick={() => setProductInfo(product)}
-                    >
-                      <p className="bu-name">
-                        {product.title}
-                      </p>
-                      <div className="info-holder col">
-                        <span>
-                          <i
-                            className="fa-solid fa-barcode no-font id-icon"
-                            aria-hidden="true"
-                          ></i>
-                          {product.sku}
-                        </span>
-                        <span className="icon-span">
-                          <img src="/img/weight-icon.png" alt="weight"/>
-                          {product.weight}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-      ):<></>}
-      <ManageUser show={showUsers} close={() => setShowUsers(0)} />
+      {showUsers ? (
+        <ManageUser show={showUsers} close={() => setShowUsers(0)} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
