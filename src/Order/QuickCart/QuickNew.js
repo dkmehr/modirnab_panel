@@ -2,7 +2,7 @@ import { useState } from "react";
 import QuickCounter from "./QuickCounter";
 import QuickOff from "./QuickOff";
 import QuickSearch from "./QuickSearch";
-import env, { payValue } from "../../env";
+import env, { normalPriceCount, payValue } from "../../env";
 import DataModal from "../../components/Modal/dataModal";
 import SalesQuickSearch from "./SalesQuickSearch";
 function QuickNew(props) {
@@ -32,15 +32,15 @@ function QuickNew(props) {
             : user._id
           : token && token.userId,
         date: Date.now,
-        cartItem: {
-          id: selectedItem.ItemID,
-          sku: selectedItem.sku,
-          title: selectedItem.title,
-          count: count ? count : 1,
-          discount: discount ? discount : 0,
-          price: selectedItem.priceData,
-          description: description,
-        },
+
+        id: selectedItem.ItemID,
+        sku: selectedItem.sku,
+        title: selectedItem.title,
+        count: count ? count : 1,
+        discount: discount ? discount : 0,
+        price: selectedItem.priceData,
+        description: description,
+
         payValue: props.payValue,
       }),
     };
@@ -130,18 +130,16 @@ function QuickNew(props) {
         <br />
         <small>{selectedItem ? selectedItem.sku : ""}</small>
       </td>
-      {props.LiveCount ? <td data-cell="موجودی"></td> : <></>}
-      {/* <td data-cell="تعداد">
+      {/* {props.LiveCount ? <td data-cell="موجودی"></td> : <></>} */}
+      <td data-cell="تعداد">
         <QuickCounter
           unit={selectedItem && selectedItem.perBox ? selectedItem.perBox : 10}
           count={count}
           setCount={setCount}
         />
-      </td> */}
+      </td>
       <td data-cell="مبلغ واحد">
-        {selectedItem
-          ? payValue(selectedItem.priceData, props.payValue, 1)
-          : ""}
+        {selectedItem ? normalPriceCount(selectedItem.sellPrice) : ""}
       </td>
       <td data-cell="تخفیف">
         <QuickOff

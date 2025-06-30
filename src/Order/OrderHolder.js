@@ -222,7 +222,7 @@ function OrderHolder(props) {
             canEdit={1}
             payValue={payValue}
             setPayValue={setPayValue}
-            cart={cart && cart.quickCart}
+            cart={cart && cart}
             setCart={setCart}
             setError={setError}
             cartDetail={cart && cart.qCartDetail}
@@ -241,31 +241,16 @@ function OrderHolder(props) {
         ) : (
           <></>
         )} */}
-        {/* <PreQuickHolder token={token} user={user} cart={cart} />
+        {/* <PreQuickHolder token={token} user={user} cart={cart} /> */}
 
-        {cart && cart.isSale ? (
-          <PreOrderSale
-            token={token}
-            user={user}
-            setError={setError}
-            cart={cart}
-            setCart={setCart}
-            access={access}
-            setSearch={setSearch}
-            Search={Search}
-            Loader={Loader}
-            setDate={setDate}
-            lang={props.lang}
-          />
-        ) : (
-          <PreOrderHolder
-            token={token}
-            user={user}
-            cart={cart}
-            setDate={setDate}
-            lang={props.lang}
-          />
-        )}
+        <PreOrderHolder
+          token={token}
+          user={user}
+          cart={cart}
+          setDate={setDate}
+          lang={props.lang}
+        />
+
         {cart ? (
           <Paging
             content={cart}
@@ -278,7 +263,7 @@ function OrderHolder(props) {
           />
         ) : (
           <>{env.loader}</>
-        )} */}
+        )}
       </main>
       {error && error.message ? (
         <ShowError

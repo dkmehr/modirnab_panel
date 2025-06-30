@@ -29924,7 +29924,7 @@ li.board-task {
 .sharif-order-main .admin-table-sec .more-btn {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-evenly;
   gap: 0.1rem;
 }
 
@@ -30149,7 +30149,8 @@ li.board-task {
   justify-content: flex-start;
   flex-direction: column;
   flex-wrap: wrap;
-  background-color: var(--dark-blue-sec);
+  background-color: white;
+  box-shadow: 0 0 5px 2px rgb(193, 209, 255) !important;
   padding: 6px;
 }
 
@@ -30163,7 +30164,8 @@ li.board-task {
 .sharif-order-main .orders-sec .title p {
   font-size: 20px;
   font-weight: 600;
-  color: #fff;
+  color: black;
+  margin:0;
 }
 
 .sharif-order-main .orders-sec .title .orders-total {
@@ -30175,6 +30177,7 @@ li.board-task {
 .sharif-order-main .orders-sec .title .orders-total p {
   font-size: 0.85rem;
   margin-bottom: 0;
+  color:white;
 }
 
 .sharif-order-main .orders-sec .order-wrapper {
@@ -38186,6 +38189,7 @@ table {
 .DatePicker {
   height: 40px;
   margin: 15px !important;
+  margin-left: auto !important;
   min-width: 225px !important;
 
   input {

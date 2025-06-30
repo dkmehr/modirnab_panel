@@ -185,7 +185,10 @@ root.render(
             </Layout>
           }
         />
-        <Route path="/PrintStore/:stepId" element={<PrintStore lang={lang} />} />
+        <Route
+          path="/PrintStore/:stepId"
+          element={<PrintStore lang={lang} />}
+        />
         <Route
           path="/crmlist"
           element={
@@ -267,7 +270,14 @@ root.render(
             </Layout>
           }
         />
-
+        <Route
+          path="/setOrders"
+          element={
+            <Layout>
+              <OrderHolder lang={"fa"} />
+            </Layout>
+          }
+        />
         <Route path="/orders/business" element={<OrderHolder lang={"fa"} />} />
         <Route path="/orders/open" element={<OpenOrders lang={"fa"} />} />
         <Route

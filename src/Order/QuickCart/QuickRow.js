@@ -159,14 +159,34 @@ function QuickRow(props) {
         <td data-cell="ردیف">
           <p>{props.index}</p>
         </td>
+        <td data-cell="کد کالا">
+          <p>{data.sku}</p>
+        </td>
 
         <td data-cell="شرح کالا">
           <div className="product-title">
             <div className="product-name">
               <p className="name">{data.title}</p>
-              <p>{data.sku}</p>
             </div>
           </div>
+        </td>
+        <td data-cell="تعداد">
+          {editMode ? (
+            <div className="input-tr">
+              <QuickCounter
+                setCount={(e) =>
+                  setChanges((prevState) => ({
+                    ...prevState,
+                    count: e,
+                  }))
+                }
+                unit={data && data.perBox ? data.perBox : 10}
+                count={changes ? changes.count : data.count}
+              />
+            </div>
+          ) : (
+            <p>{data.count}</p>
+          )}
         </td>
 
         <td data-cell="مبلغ واحد">
@@ -241,17 +261,7 @@ function QuickRow(props) {
                     className="fa-solid fa-pen"
                     onClick={() => fetchAmount(data.sku)}
                   ></i> */}
-                  {data.stock ? (
-                    <i
-                      className="fa-solid fa-sign-out storeSelect"
-                      onClick={() => updateField({ stock: "" })}
-                    ></i>
-                  ) : (
-                    <i
-                      className="fa-solid fa-sign-out"
-                      onClick={() => updateField({ stock: "9" })}
-                    ></i>
-                  )}
+
                   <i
                     className="fa-solid fa-trash"
                     style={{ color: "red" }}

@@ -48,6 +48,14 @@ const menutrans = {
       href: "#",
       children: [
         {
+          english: "ُSet Order",
+          persian: "ثبت فاکتور",
+          index: 0,
+          icon: "fa-tasks",
+          href: "/setOrders",
+          url: "setOrders",
+        },
+        {
           english: "Orders",
           persian: "سفارشات",
           index: 0,

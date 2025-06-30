@@ -9,7 +9,6 @@ import tabletrans from "../../translate/tables";
 function PreOrderItem(props) {
   const token = props.token;
   const data = props.data;
-  const total = props.total && props.total[props.index];
   const [showDetail, setDetail] = useState(0);
   const [LinkShare, setLinkShare] = useState("");
   const [ShowReorder, setShowReorder] = useState(0);
@@ -43,23 +42,13 @@ function PreOrderItem(props) {
     <div className="order-wrapper">
       <div
         className="border-title"
-        onClick={() => (showDetail ? setDetail(0) : setDetail(1))}
+        // onClick={() => (showDetail ? setDetail(0) : setDetail(1))}
       >
         <div className="bu-name">
-          {data.userInfo[0] ? (
+          {data ? (
             <div className="col">
-              <p>
-                {data.userInfo[0].username ? data.userInfo[0].username : "-"}
-                {data.userInfo[0].agent ? (
-                  <></>
-                ) : (
-                  <i
-                    className="fa-solid fa-check-circle blue-check"
-                    aria-hidden="true"
-                  ></i>
-                )}
-              </p>
-              <span>
+              <p>{data.cName ? data.cName : "-"}</p>
+              {/* <span>
                 {data.userInfo[0].meliCode
                   ? data.userInfo[0].meliCode
                   : "----------"}
@@ -67,36 +56,10 @@ function PreOrderItem(props) {
                   className="fa-solid fa-credit-card no-font"
                   aria-hidden="true"
                 ></i>
-              </span>
+              </span> */}
               <span>
-                {data.userInfo[0].phone ? data.userInfo[0].phone : "----------"}
+                {data.phone ? data.phone : "----------"}
                 <i className="fa-solid fa-phone no-font" aria-hidden="true"></i>
-              </span>
-              <span>
-                {data.userInfo[0].roleId
-                  ? data.userInfo[0].roleId
-                  : "----------"}
-                <i
-                  className="fa-solid fa-certificate no-font"
-                  aria-hidden="true"
-                ></i>
-              </span>
-            </div>
-          ) : (
-            <></>
-          )}
-          {data.userInfo[0] ? (
-            <div className="col">
-              <small>{data.userInfo[0] ? data.userInfo[0].Address : "-"}</small>
-
-              <span>
-                {data.userInfo[0] && data.userInfo[0].PostalCode
-                  ? data.userInfo[0].PostalCode
-                  : "----------"}
-                <i
-                  className="fa-solid fa-location-arrow no-font"
-                  aria-hidden="true"
-                ></i>
               </span>
             </div>
           ) : (
@@ -104,7 +67,7 @@ function PreOrderItem(props) {
           )}
         </div>
         <div className="newCol" style={{}}>
-          <p>شماره سفارش: {data.cartNo}</p>
+          <p>شماره سفارش: {data.faktorNo}</p>
 
           {/*<p>{normalPriceCount(total.totalPrice,1)}</p>*/}
         </div>

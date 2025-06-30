@@ -6,7 +6,7 @@ import StyleDatePicker from "../../components/Button/DatePicker";
 function PreOrderHolder(props) {
   const token = props.token;
   const user = props.user;
-  const cart = props.cart && props.cart.cart;
+  const cart = props.cart && props.cart.faktors;
   const total = props.cart && props.cart.cartDetail;
   if (!cart) return <></>;
   else

@@ -28,9 +28,9 @@ function QuickTable(props) {
           ) : (
             <></>
           )} */}
-          {/* <th data-cell="تعداد">
+          <th data-cell="تعداد">
             <p>تعداد</p>
-          </th> */}
+          </th>
           <th data-cell="مبلغ واحد">
             <p>مبلغ واحد</p>
           </th>
@@ -73,8 +73,8 @@ function QuickTable(props) {
           </tr>
         )}
         {qCart &&
-          qCart.cartItems &&
-          qCart.cartItems.map((item, i) => (
+          qCart.cart &&
+          qCart.cart.map((item, i) => (
             <QuickRow
               ErrorAmount={props.ErrorAmount}
               setTab={setTab}
