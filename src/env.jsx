@@ -1,11 +1,11 @@
 const env = {
   // siteApi:'http://localhost:6026/api',
-  siteApi: "https://admin.fahascrubs.com/api",
-  // siteApi:'https://demofahaadmin.dkmehr.com/api',
+  // siteApi: "https://admin.fahascrubs.com/api",
+  siteApi: "https://demofahaadmin.dkmehr.com/api",
 
   // siteApiUrl:'http://localhost:6026',
-  siteApiUrl: "https://admin.fahascrubs.com",
-  // siteApiUrl:'https://demofahaadmin.dkmehr.com',
+  // siteApiUrl: "https://admin.fahascrubs.com",
+  siteApiUrl: "https://demofahaadmin.dkmehr.com",
   cookieName: "faha-login",
   //cookieName:'panel-login',
   //cookieName:'mehr-login',

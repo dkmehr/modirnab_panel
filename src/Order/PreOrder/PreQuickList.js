@@ -1,10 +1,11 @@
-import PreQuickItem from "./PreQuickItem"
+import PreQuickItem from "./PreQuickItem";
 
-function PreQuickHolder(props){
-  const cart= props.cart&&props.cart.qCartAdmin
+function PreQuickHolder(props) {
+  const cart = props.cart && props.cart.qCartAdmin;
   //console.log(cart)
-  if(!cart||cart.length<=1) return(<></>)
-  else return(
+  if (!cart || cart.length <= 1) return <></>;
+  else
+    return (
       <section className="orders-sec">
         <div className="title">
           <p>سفارشات باز</p>
@@ -12,19 +13,19 @@ function PreQuickHolder(props){
             <p>تعداد سفارشات باز: {cart.length}</p>
           </div>
         </div>
-        
+
         <div className="order-wrapper">
           <div className="border-title">
             <div className="bu-name">
-            <div className="col">
-        {cart.map((cart,i)=>(
-          <PreQuickItem key={i} data={cart} index={i}/>
-        ))}
-        </div>
-        </div>
-        </div>
+              <div className="col">
+                {cart.map((cart, i) => (
+                  <PreQuickItem key={i} data={cart} index={i} />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-    )
+    );
 }
-export default PreQuickHolder
+export default PreQuickHolder;

@@ -8,7 +8,6 @@ function FilterGrid(props) {
   const [brandIndex, setBrandIndex] = useState(-1);
   const [catIndex, setCatIndex] = useState(-1);
   const [subIndex, setSubIndex] = useState(-1);
-
   const updateBrand = (brand, index) => {
     if (brandIndex === index) {
       setBrandIndex(-1);
@@ -42,7 +41,7 @@ function FilterGrid(props) {
 
     props.setFilters((prevState) => ({
       ...prevState,
-      subCategory: "",
+      subCat: "",
     }));
     props.setAppFilter((prevState) => ({
       ...prevState,
@@ -51,7 +50,7 @@ function FilterGrid(props) {
 
     props.setAppFilter((prevState) => ({
       ...prevState,
-      subCategory: "",
+      subCat: "",
     }));
   };
   const updateCategory = (category, index) => {
@@ -70,7 +69,7 @@ function FilterGrid(props) {
       }));
     } else {
       setCatIndex(index);
-      setSubCat(category);
+      props.getSubCat(category.catCode);
       props.setFilters((prevState) => ({
         ...prevState,
         category: category,
@@ -84,11 +83,11 @@ function FilterGrid(props) {
 
     props.setFilters((prevState) => ({
       ...prevState,
-      subCategory: "",
+      subCat: "",
     }));
     props.setAppFilter((prevState) => ({
       ...prevState,
-      subCategory: "",
+      subCat: "",
     }));
   };
   const updateSubCategory = (subCategory, index) => {
@@ -96,22 +95,22 @@ function FilterGrid(props) {
       setSubIndex(-1);
       props.setFilters((prevState) => ({
         ...prevState,
-        subCategory: subCategory,
+        subCat: subCategory,
       }));
       props.setAppFilter((prevState) => ({
         ...prevState,
-        subCategory: "",
+        subCat: "",
       }));
     } else {
       setSubIndex(index);
       props.setFilters((prevState) => ({
         ...prevState,
-        subCategory: subCategory,
+        subCat: subCategory,
       }));
 
       props.setAppFilter((prevState) => ({
         ...prevState,
-        subCategory: subCategory ? subCategory.catCode : "",
+        subCat: subCategory ? subCategory.catCode : "",
       }));
     }
   };
@@ -155,9 +154,9 @@ function FilterGrid(props) {
           ))}
       </div>
       <div className="product-filter-tile-wrapper">
-        {subCat &&
-          subCat.children &&
-          subCat.children.map((subCat, i) => (
+        {props.SubCat &&
+          props.SubCat&&
+          props.SubCat.map((subCat, i) => (
             <div
               className={
                 subIndex === i

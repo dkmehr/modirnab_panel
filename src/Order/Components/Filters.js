@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FilterGrid from "./FilterGrid";
 import StyleSelect from "../../components/Button/AutoComplete";
+import StyleInput from "../../components/Button/Input";
 import { notNull } from "../../env";
-
+import env from "../../env";
+import PostReq from "../../utils/PostReq";
 function OrderFilters(props) {
+  const [SubCat, setSubCat] = useState();
+  const [FiltersList, setFiltersList] = useState();
+
   const filters = props.filters;
   const brands =
     filters && filters.brands ? notNull(filters.brands, "title") : [];
@@ -21,73 +26,89 @@ function OrderFilters(props) {
         }))
       : props.setAppFilter({ [kind]: value });
   };
+  const fetchFilters = async () => {
+    const result = await PostReq({
+      method: "GET",
+      url: "/panel/faktor/list-filters-panel",
+    });
+    setFiltersList(result);
+  };
+  const [searchValue, setSearchValue] = useState("");
+  useEffect(() => {
+    if (searchValue === "") {
+      props.setAppFilter((prevState) => ({
+        ...prevState,
+        title: "",
+      }));
+      return;
+    }
+    const handler = setTimeout(() => {
+      props.setAppFilter((prevState) => ({
+        ...prevState,
+        title: searchValue,
+      }));
+    }, 2000);
+    return () => clearTimeout(handler);
+  }, [searchValue]);
+  useEffect(() => {
+    fetchFilters();
+  }, []);
   return (
     <div className="filter-sec">
-      {props.grid ? (
-        <div className="list-filter-wrapper">
-          <div className="main-filters">
-            <StyleSelect
-              title={"برند"}
+      <div className="list-filter-wrapper">
+        <div className="main-filters">
+          <div className="f-company">
+            <StyleInput
+              title={"جستجو"}
               direction={"rtl"}
-              options={brands || []}
-              label="title"
-              class="f-company"
-              action={(e) =>
-                props.setAppFilter((prevState) => ({
-                  ...prevState,
-                  brand: e ? e.brandCode : "",
-                }))
-              }
+              action={(e) => setSearchValue(e || "")}
             />
-            <StyleSelect
-              title={"دسته بندی"}
-              direction={"rtl"}
-              options={cat || []}
-              label="title"
-              class="f-company"
-              action={(e) => {
-                props.setAppFilter((prevState) => ({
-                  ...prevState,
-                  category: e ? e.catCode : "",
-                }));
-                props.setFilters((prevState) => ({
-                  ...prevState,
-                  category: e ? e.catCode : "",
-                }));
-              }}
-            />
-            <StyleSelect
+          </div>
+          <StyleSelect
+            title={"برند"}
+            direction={"rtl"}
+            options={(FiltersList && FiltersList.brands) || []}
+            label="title"
+            class="f-company"
+            action={(e) =>
+              props.setAppFilter((prevState) => ({
+                ...prevState,
+                brand: e ? e.brandCode : "",
+              }))
+            }
+          />
+          {/* <StyleSelect
+            title={"دسته بندی"}
+            direction={"rtl"}
+            options={(FiltersList && FiltersList.cats) || []}
+            label="title"
+            class="f-company"
+            action={(e) => {
+              props.setAppFilter((prevState) => ({
+                ...prevState,
+                catCode: e ? e.catCode : "",
+              }));
+              props.setFilters((prevState) => ({
+                ...prevState,
+                catCode: e ? e.catCode : "",
+              }));
+            }}
+          /> */}
+          {/* <StyleSelect
               title={"زیر دسته بندی"}
               direction={"rtl"}
-              options={
-                props.filters && props.filters.category
-                  ? props.filters.category.subCats
-                  : []
-              }
+              options={SubCat || []}
               label="title"
               class="f-company"
               action={(e) =>
-                props.setFilters((prevState) => ({
+                props.setAppFilter((prevState) => ({
                   ...prevState,
-                  subCat: e,
+                  subCat: e ? e.catCode	 : " ",
                 }))
               }
-            />
-          </div>
+            /> */}
         </div>
-      ) : (
-        <>
-          <FilterGrid
-            setFilters={props.setFilters}
-            setAppFilter={props.setAppFilter}
-            brands={brands}
-            cat={cat}
-          />
-          <div className="add-wrapper display-on">
-            <img src="/img/business/ad-pic.jpg" alt="ad" />
-          </div>
-        </>
-      )}
+      </div>
     </div>
   );
 }

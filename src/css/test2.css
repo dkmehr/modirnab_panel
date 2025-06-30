@@ -29456,21 +29456,30 @@ li.board-task {
 .sharif-order-main {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  padding: .1rem;
 }
 
 .sharif-order-header .nav-bar {
   width: 100%;
   border-radius: 4px;
-  background: var(--dark-blue-sec);
+  background:white;
   padding: 13px 10px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   position: relative;
-  color: #fff;
+  color: black;
   font-size: 1.5rem;
+  font-weight: 700;
   gap: 0.5rem;
+  box-shadow: 0 0 5px 2px rgb(193, 209, 255) !important;
+  margin-bottom:1rem;
+
+  p{
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin:0px
+  }
 }
 
 .sharif-order-header .nav-bar i {
@@ -29799,10 +29808,11 @@ li.board-task {
 }
 
 .sharif-order-main .admin-table-sec {
-  background: var(--dark-blue-sec);
-  padding: 0;
+  background:white;
+  padding: .1rem;
   margin-top: 0;
   margin-bottom: 1rem;
+  box-shadow: 0 0 5px 2px rgb(193, 209, 255) !important;
 }
 
 .sharif-order-main .admin-table-sec table * {
@@ -30459,8 +30469,8 @@ li.board-task {
 .sharif-order-main .product-table-btn-wrapper .product-table-btn {
   min-width: 100px;
   padding: 0.5rem 1rem;
-  background-color: var(--gold);
-  border-radius: 0.5rem;
+  background-color: #f4f6f8;
+    box-shadow: 0 0 6px 3px #bababa;  border-radius: 0.5rem;
   color: #000;
   user-select: none;
   cursor: pointer;
@@ -35401,7 +35411,7 @@ table {
 .slidemenu {
   background-color: rgba(99, 99, 99, 0.207);
   display: flex;
-  max-width: 100%;
+  width: 100%;
   overflow: hidden;
   position: relative;
   z-index: 0;

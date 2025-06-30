@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import env from "../../env";
 import ManageUser from "./ManageUser";
-import { useNavigate } from "react-router-dom";
 import PostReq from "../../utils/PostReq";
 function OrderHeader(props) {
-  const navigate = useNavigate();
-  const token = props.token;
   const [showDrop, setShowDrop] = useState(0);
   const [showUsers, setShowUsers] = useState(0);
+  const [tab, setTab] = useState(0);
+  const tabItem = ["تهاتر", "پارک در نمایشگاه", "خرید"];
   const updateGrid = (value) => {
     props.setGrid(value);
     var shopVar = JSON.parse(localStorage.getItem(env.shopExpert));
@@ -36,6 +35,7 @@ function OrderHeader(props) {
     });
     setCustomers(result.customers);
   };
+
   const setPay = (customer) => {
     if (customer.CustomerID) {
       props.setPayValue(3);
@@ -43,7 +43,12 @@ function OrderHeader(props) {
       props.setPayValue(4);
     }
   };
-
+  useEffect(() => {
+    if (props.newCustomer == "1") {
+      setTab(1);
+      setShowUsers(1);
+    }
+  }, []);
   return (
     <div className="nav-bar">
       <p>سفارشات</p>
@@ -64,10 +69,11 @@ function OrderHeader(props) {
             </b>
             <small>{props.user.Address ? props.user.Address : "-"}</small>
           </div>
+
           <i
             className="fa-solid fa-remove"
             style={{ margin: "0", color: "#000" }}
-            onClick={() => props.setUser("")}
+            onClick={() => (props.setUser(""), props.emptyCall(""))}
           ></i>
         </div>
       ) : (
@@ -91,7 +97,7 @@ function OrderHeader(props) {
       {/*<button onClick={() => gotToOpenOrders()} className="view-open-order">
         سفارشهای باز
       </button>*/}
-      <div className="view-btn-wrapper">
+      {/* <div className="view-btn-wrapper">
         <label
           htmlFor="list-view"
           className={props.grid ? "list-btn view-active" : "list-btn"}
@@ -108,31 +114,31 @@ function OrderHeader(props) {
           <i className="fa-solid fa-table no-font"></i>
         </label>
         <input type="radio" name="view" id="tile-view" />
-      </div>
+      </div> */}
       {showDrop ? (
         <div className="f-customer-dropdpwn">
           {customers &&
             customers.map((customer, i) => (
               <div
-                className={`menu-item${customer.canSubmit ? "" : " disabled"}`}
-                // className="menu-item"
+                // className={`menu-item${customer.canSubmit ? "" : " disabled"}`}
+                className="menu-item"
                 key={i}
-                onClick={
-                  customer.canSubmit
-                    ? () => {
-                        props.setUser(customer);
-                        setPay(customer);
-                      }
-                    : undefined
-                }
-                // onClick={() => {
-                //   props.setUser(customer);
-                //   setPay(customer);
-                // }}
-                style={{
-                  cursor: customer.canSubmit ? "pointer" : "not-allowed",
-                  opacity: customer.canSubmit ? 1 : 0.5,
+                // onClick={
+                //   customer.canSubmit
+                //     ? () => {
+                //         props.setUser(customer);
+                //         setPay(customer);
+                //       }
+                //     : undefined
+                // }
+                onClick={() => {
+                  props.setUser(customer);
+                  setPay(customer);
                 }}
+                // style={{
+                //   cursor: customer.canSubmit ? "pointer" : "not-allowed",
+                //   opacity: customer.canSubmit ? 1 : 0.5,
+                // }}
               >
                 <p className="bu-name">
                   {customer.username}
@@ -186,7 +192,14 @@ function OrderHeader(props) {
         <></>
       )}
       {showUsers ? (
-        <ManageUser show={showUsers} close={() => setShowUsers(0)} />
+        <ManageUser
+          tab={tab}
+          setTab={setTab}
+          show={showUsers}
+          close={() => setShowUsers(0)}
+          phoneUser={props.phoneUser}
+          setUser={props.setUser}
+        />
       ) : (
         <></>
       )}

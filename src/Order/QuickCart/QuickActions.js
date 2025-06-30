@@ -3,8 +3,10 @@ import DataModal from "../../components/Modal/dataModal";
 import env from "../../env";
 
 function QuickActions(props) {
+  const tab = props.tab;
   const token = props.token;
   const cart = props.cart;
+  console.log(tab);
   //console.log(cart.discount)
   const [showDesc, setShowDesc] = useState(0);
   const [showDescSale, setShowDescSale] = useState(0);
@@ -13,6 +15,13 @@ function QuickActions(props) {
   const [discount, setDiscount] = useState();
   const [disText, setDisText] = useState(cart && cart.discount);
 
+  const setDisFunc = (value) => {
+    let intVal = value ? parseFloat(value) : 0;
+    if (intVal > 50) {
+      intVal = 50;
+    }
+    setDisText(intVal);
+  };
   useEffect(() => {
     //if(!description&&!discount)return
     if (!cart) return;
@@ -32,7 +41,10 @@ function QuickActions(props) {
       }),
     };
     console.log(postOptions);
-    fetch(env.siteApi + "/panel/faktor/update-desc", postOptions)
+    fetch(
+      env.siteApi + `/panel/${tab ? "quote" : "faktor"}/update-desc`,
+      postOptions
+    )
       .then((res) => res.json())
       .then(
         (result) => {
@@ -74,7 +86,10 @@ function QuickActions(props) {
       }),
     };
     //console.log(postOptions)
-    fetch(env.siteApi + "/panel/faktor/edit-payValue", postOptions)
+    fetch(
+      env.siteApi + `/panel/${tab ? "quote" : "faktor"}/edit-payValue`,
+      postOptions
+    )
       .then((res) => res.json())
       .then(
         (result) => {
@@ -101,42 +116,71 @@ function QuickActions(props) {
   }, [props.payValue]);
   return (
     <div className="btn-wrapper">
-      {/* <button type="button" className="product-table-btn pay-metod-btn">
-            <div className={props.payValue==3?"cash-pay display-on":"cash-pay"}
-                onClick={()=>props.setPayValue(4)}>
+      {props.canEdit ? (
+        <button type="button" className="product-table-btn pay-metod-btn">
+          <div
+            className={props.payValue == 3 ? "cash-pay display-on" : "cash-pay"}
+            onClick={() => props.setPayValue(4)}
+          >
             <p>نقدی</p>
             <i className="fa-solid fa-money"></i>
-            </div>
-            <div className={props.payValue==4?"check-pay display-on":"check-pay"}
-                onClick={()=>props.setPayValue(3)}>
-            <p>غیرنقدی</p>
+          </div>
+          <div
+            className={
+              props.payValue == 4 ? "check-pay display-on" : "check-pay"
+            }
+            onClick={() => props.setPayValue(3)}
+          >
+            <p>اقساط</p>
             <i className="fa-solid fa-credit-card"></i>
-            </div>
-        </button> */}
-      
-      {showDisc ? (
-        <button type="button" className="product-table-btn">
-          <input
-            type="input"
-            placeholder="تخفیف"
-            value={disText}
-            onChange={(e) => setDisText(e.target.value)}
-          />
-          <i
-            className="fa fa-check"
-            onClick={() => (setDiscount(disText), setShowDisc(0))}
-          ></i>
-          <i className="fa fa-remove" onClick={() => setShowDisc(0)}></i>
+          </div>
         </button>
       ) : (
-        <button
-          type="button"
-          className="product-table-btn"
-          onClick={() => setShowDisc(1)}
-        >
-          <p>تخفیف</p>
-          <i className="fa-solid fa-percent"></i>
-        </button>
+        <></>
+      )}
+      <button
+        type="button"
+        className="product-table-btn"
+        onClick={() => setShowDesc(1)}
+      >
+        <p>توضیحات</p>
+        <i className="fa-solid fa-comment"></i>
+      </button>
+      <button
+        type="button"
+        className="product-table-btn"
+        onClick={() => setShowDescSale(1)}
+      >
+        <p>توضیحات فروش</p>
+        <i className="fa-solid fa-comment"></i>
+      </button>
+      {props.canEdit ? (
+        showDisc ? (
+          <button type="button" className="product-table-btn">
+            <input
+              type="input"
+              placeholder="تخفیف"
+              value={disText}
+              onChange={(e) => setDisFunc(e.target.value)}
+            />
+            <i
+              className="fa fa-check"
+              onClick={() => (setDiscount(disText), setShowDisc(0))}
+            ></i>
+            <i className="fa fa-remove" onClick={() => setShowDisc(0)}></i>
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="product-table-btn"
+            onClick={() => setShowDisc(1)}
+          >
+            <p>تخفیف</p>
+            <i className="fa-solid fa-percent"></i>
+          </button>
+        )
+      ) : (
+        <></>
       )}
 
       {showDesc ? (

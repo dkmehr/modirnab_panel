@@ -1,138 +1,271 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ErrorAction from "../../components/Modal/ErrorAction";
 import env, { normalPriceCount, payValue, normalPriceRound } from "../../env";
 import DataModal from "../../components/Modal/dataModal";
 import QuickOff from "./QuickOff";
-import PostReq from "../../utils/PostReq";
 import QuickCounter from "./QuickCounter";
+import PostReq from "../../utils/PostReq";
 function QuickRow(props) {
   const data = props.data;
-  const isEdit = props.isEdit;
-  const [Edit, setEdit] = useState(false);
-  const [ShowModal, setShowModal] = useState(false);
-  const [Count, setCount] = useState(data.count);
-  const [Discount, setDiscount] = useState(data.discount);
-  const [Price, setPrice] = useState(data.unitPrice);
-  const Status = props.faktorData.status;
-  const DeleteItem = async () => {
+  const token = props.token;
+  const user = props.user;
+  const tab = props.tab;
+  const type = props.cart && props.cart.isQuote && props.cart.isQuote;
+  const LiveCount = props.LiveCount;
+  const setLiveCount = props.setLiveCount;
+  const setTab = props.setTab ?? props.setTab;
+  const ErrorAmount = props.ErrorAmount;
+  const [showDesc, setShowDesc] = useState(0);
+  const [editMode, setEditMode] = useState(0);
+  const [changes, setChanges] = useState();
+  const [Amount, setAmount] = useState("");
+
+  const [AmountState, setAmountState] = useState(false);
+  if (type == true) {
+    setTab(true);
+  }
+  const fetchAmount = async (sku) => {
+    setEditMode(1);
     const result = await PostReq({
       method: "Post",
-      url: "/panel/faktor/remove-faktor-item",
-      body: { faktorItemNo: data._id },
+      url: "/panel/faktor/calc-count",
+      body: { sku: sku, stockId: props.cart.stockId },
     });
-    props.setContent(result);
+    setLiveCount(true);
+    setAmount("");
+    setTimeout(() => setAmount(result.count.quantity), 200);
   };
-  const UpdateItem = async () => {
-    const result = await PostReq({
-      method: "Post",
-      url: "/panel/faktor/update-faktor-item",
-      body: {
-        faktorItemNo: data._id,
-        count: Count,
-        discount: Discount,
-        unitPrice: Price,
+  console.log(LiveCount);
+  const updateField = (changes) => {
+    console.log(tab);
+    if (!changes) return;
+
+    const postOptions = {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token && token.token,
+        userId: token && token.userId,
       },
-    });
-    props.setContent(result);
-    setEdit(false);
+      body: JSON.stringify({
+        userId: user
+          ? user.Code
+            ? user.Code
+            : user._id
+          : token && token.userId,
+        cartNo: props.cartNo,
+        cartID: data.id,
+        changes,
+      }),
+    };
+
+    fetch(
+      env.siteApi +
+        (props.cartNo
+          ? `/panel/${tab ? "quote" : "faktor"}/update-Item-cart`
+          : `/panel/${tab ? "quote" : "faktor"}/update-Item`),
+      postOptions
+    )
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          if (result.error) {
+            props.setError({ message: result.error, color: "brown" });
+            setTimeout(
+              () => props.setError({ message: "", color: "brown" }),
+              3000
+            );
+          } else {
+            props.setCart(result);
+            props.setError({ message: result.message, color: "orange" });
+            setTimeout(
+              () => props.setError({ message: "", color: "brown" }),
+              3000
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
-  console.log(Count);
+
+  const [showRemove, setShowRemove] = useState();
+  const removeItem = () => {
+    const postOptions = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token && token.token,
+        userId: token && token.userId,
+      },
+      body: JSON.stringify({
+        userId: user
+          ? user.Code
+            ? user.Code
+            : user._id
+          : token && token.userId,
+        cartID: data._id,
+      }),
+    };
+    console.log(postOptions);
+    fetch(
+      env.siteApi + `/panel/${tab ? "quote" : "faktor"}/remove-cart`,
+      postOptions
+    )
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          if (result.error) {
+            props.setError({ message: result.error, color: "brown" });
+            setTimeout(
+              () => props.setError({ message: "", color: "brown" }),
+              3000
+            );
+          } else {
+            props.setCart(result);
+            props.setError({ message: result.message, color: "orange" });
+            setTimeout(
+              () => props.setError({ message: "", color: "brown" }),
+              3000
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  };
+  const defAction = () => {
+    props.action({ cartID: data.id });
+  };
+  const saveChanges = () => {
+    updateField(changes);
+    console.log(changes);
+    setEditMode(0);
+  };
+
+  useEffect(() => {
+    if (ErrorAmount && ErrorAmount.filter((l) => l.sku === data.sku).length) {
+      setAmountState(true);
+    } else {
+      setAmountState(false);
+    }
+  }, [ErrorAmount]);
+
   return (
     <>
-      <tr className={`product-tr ${data.isRecieved ? "receivedTr" : ""}`}>
+      <tr className={`product-tr ${AmountState ? "red-bg" : ""}`}>
         <td data-cell="ردیف">
           <p>{props.index}</p>
         </td>
-        <td data-cell="نام کالا">
-          <div className="product-titleFull">
-            {/* <img src="/img/business/oil1.png" alt="avatar"/> */}
+
+        <td data-cell="شرح کالا">
+          <div className="product-title">
             <div className="product-name">
-              <p className="name">
-                {data.title}({data.sku})
-              </p>
+              <p className="name">{data.title}</p>
+              <p>{data.sku}</p>
             </div>
           </div>
         </td>
-        <td data-cell="تعداد">
-          {Edit ? (
-            <QuickCounter setCount={setCount} count={Count} unit={10} />
-          ) : (
-            <p>
-              {data.count}
-              {Status == "prepair" && (
-                <span style={{ color: "green" }}>
-                  ({data.recieveCount ? data.recieveCount : "0"})
-                </span>
-              )}
-            </p>
-          )}
-        </td>
-        <td data-cell="قیمت واحد(ریال)">
-          {Edit ? (
+
+        <td data-cell="مبلغ واحد">
+          {editMode ? (
             <input
               type="text"
-              defaultValue={data.unitPrice}
               placeholder="قیمت واحد"
-              className="price-input"
-              onChange={(e) => setPrice(e.target.value)}
+              value={changes ? changes.price : data.price}
+              className="price-edit-input"
+              onChange={(e) =>
+                setChanges((prevState) => ({
+                  ...prevState,
+                  price: e ? e.target.value : "",
+                }))
+              }
             />
           ) : (
-            <p>{normalPriceCount(data.unitPrice)}</p>
+            <p>{normalPriceCount(data.price)}</p>
           )}
         </td>
         <td data-cell="تخفیف">
-          {Edit ? (
-            <QuickOff
-              change={(e) => setDiscount(e)}
-              discount={Discount ? Discount : 0}
-            />
+          {editMode ? (
+            <div className="input-tr">
+              <QuickOff
+                change={(e) =>
+                  setChanges((prevState) => ({
+                    ...prevState,
+                    discount: e,
+                  }))
+                }
+                discount={changes ? changes.discount : data.discount}
+                def={data.discount}
+              />
+            </div>
           ) : (
-            <p>{data.discount ? data.discount + "%" : "0%"}</p>
+            <div className="discount-td">
+              <p>
+                {data.total && data.total.discount}
+                {parseInt(data.total && data.total.discount) < 100 ? "%" : ""}
+              </p>
+              <span className="total-discount">
+                {props.cart &&
+                props.cart.discount &&
+                props.cart.discount !== "0"
+                  ? "+" + props.cart.discount + "%"
+                  : ""}
+              </span>
+            </div>
           )}
         </td>
-        <td data-cell="قیمت نهایی(ریال)">
-          <p>{normalPriceCount(data.price)}</p>
+        <td data-cell="مبلغ کل">
+          <p>{normalPriceCount(data.total && data.total.price)}</p>
         </td>
-        <td className="icon-styles">
-          {isEdit ? (
-            Edit ? (
-              <>
-                <i
-                  class="fa fa-check"
-                  aria-hidden="true"
-                  style={{ color: "green" }}
-                  onClick={UpdateItem}
-                ></i>
-                <i
-                  className="fa-solid fa-remove"
-                  onClick={() => setEdit(false)}
-                ></i>
-              </>
-            ) : (
-              <>
-                <i
-                  class="fa fa-pencil-square-o"
-                  aria-hidden="true"
-                  onClick={() => setEdit(true)}
-                ></i>
-              </>
-            )
+        <td>
+          {editMode ? (
+            <div className="more-btn">
+              <i className="fa-solid fa-save" onClick={saveChanges}></i>
+              <i
+                className="fa-solid fa-remove"
+                onClick={() => setEditMode(0)}
+              ></i>
+            </div>
           ) : (
-            <></>
-          )}
-          {isEdit ? (
-            <i
-              class="fa fa-trash"
-              aria-hidden="true"
-              onClick={() => setShowModal(true)}
-              style={{ color: "red" }}
-            ></i>
-          ) : (
-            <></>
+            <div className="more-btn">
+              <i
+                className="fa-solid fa-comment"
+                onClick={() => setShowDesc(1)}
+              ></i>
+              {props.canEdit ? (
+                <>
+                  {/* <i
+                    className="fa-solid fa-pen"
+                    onClick={() => fetchAmount(data.sku)}
+                  ></i> */}
+                  {data.stock ? (
+                    <i
+                      className="fa-solid fa-sign-out storeSelect"
+                      onClick={() => updateField({ stock: "" })}
+                    ></i>
+                  ) : (
+                    <i
+                      className="fa-solid fa-sign-out"
+                      onClick={() => updateField({ stock: "9" })}
+                    ></i>
+                  )}
+                  <i
+                    className="fa-solid fa-trash"
+                    style={{ color: "red" }}
+                    onClick={() => setShowRemove(1)}
+                  ></i>
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
           )}
         </td>
       </tr>
-      {ShowModal && (
+      {showRemove ? (
         <ErrorAction
           status={"DELETE"}
           title={"حذف آیتم"}
@@ -140,10 +273,24 @@ function QuickRow(props) {
           linkText={""}
           style={{ direction: "rtl" }}
           buttonText="حذف"
-          close={() => setShowModal(false)}
-          action={DeleteItem}
-          color={"red"}
+          close={() => setShowRemove()}
+          color="red"
+          action={() => (props.action ? defAction() : removeItem())}
         />
+      ) : (
+        <></>
+      )}
+      {showDesc ? (
+        <DataModal
+          action={(e) => updateField({ description: e })}
+          close={() => setShowDesc(0)}
+          color="darkblue"
+          buttonText="تغییر توضیحات"
+          def={data.description}
+          title={"تغییر توضیحات"}
+        />
+      ) : (
+        <></>
       )}
     </>
   );
