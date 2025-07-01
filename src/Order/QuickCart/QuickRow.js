@@ -54,7 +54,7 @@ function QuickRow(props) {
             : user._id
           : token && token.userId,
         cartNo: props.cartNo,
-        cartID: data.id,
+        cartID: data._id,
         changes,
       }),
     };
@@ -194,7 +194,7 @@ function QuickRow(props) {
             <input
               type="text"
               placeholder="قیمت واحد"
-              value={changes ? changes.price : data.price}
+              value={changes ? changes.price : data.unitPrice}
               className="price-edit-input"
               onChange={(e) =>
                 setChanges((prevState) => ({
@@ -204,7 +204,7 @@ function QuickRow(props) {
               }
             />
           ) : (
-            <p>{normalPriceCount(data.price)}</p>
+            <p>{normalPriceCount(data.unitPrice)}</p>
           )}
         </td>
         <td data-cell="تخفیف">
@@ -224,8 +224,8 @@ function QuickRow(props) {
           ) : (
             <div className="discount-td">
               <p>
-                {data.total && data.total.discount}
-                {parseInt(data.total && data.total.discount) < 100 ? "%" : ""}
+                {data.discount && data.discount}
+                {parseInt(data.discount && data.discount) < 100 ? "%" : ""}
               </p>
               <span className="total-discount">
                 {props.cart &&
@@ -238,7 +238,7 @@ function QuickRow(props) {
           )}
         </td>
         <td data-cell="مبلغ کل">
-          <p>{normalPriceCount(data.total && data.total.price)}</p>
+          <p>{normalPriceCount(data.price && data.price)}</p>
         </td>
         <td>
           {editMode ? (
@@ -257,10 +257,10 @@ function QuickRow(props) {
               ></i>
               {props.canEdit ? (
                 <>
-                  {/* <i
+                  <i
                     className="fa-solid fa-pen"
-                    onClick={() => fetchAmount(data.sku)}
-                  ></i> */}
+                    onClick={() => setEditMode(1)}
+                  ></i>
 
                   <i
                     className="fa-solid fa-trash"

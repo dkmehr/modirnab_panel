@@ -88,11 +88,11 @@ function QuickTotal(props) {
         <div className="table">
           <div className="t-wrapper">
             <p>تعداد</p>
-            <p>{qCart.cartCount}</p>
+            <p>{qCart.totalCount}</p>
           </div>
           {/* <div className="t-wrapper">
             <p>مجموع فاکتور</p>
-            <p>{normalPriceCount(qCart.totalFee, 1)}</p>
+            <p>{normalPriceCount(qCart.fullPrice)}</p>
           </div> */}
           <div className="t-wrapper">
             <p>تخفیف</p>

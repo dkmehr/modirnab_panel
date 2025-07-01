@@ -116,7 +116,7 @@ function QuickActions(props) {
   }, [props.payValue]);
   return (
     <div className="btn-wrapper">
-      {props.canEdit ? (
+      {/* {props.canEdit ? (
         <button type="button" className="product-table-btn pay-metod-btn">
           <div
             className={props.payValue == 3 ? "cash-pay display-on" : "cash-pay"}
@@ -137,7 +137,7 @@ function QuickActions(props) {
         </button>
       ) : (
         <></>
-      )}
+      )} */}
       <button
         type="button"
         className="product-table-btn"
@@ -146,14 +146,14 @@ function QuickActions(props) {
         <p>توضیحات</p>
         <i className="fa-solid fa-comment"></i>
       </button>
-      <button
+      {/* <button
         type="button"
         className="product-table-btn"
         onClick={() => setShowDescSale(1)}
       >
         <p>توضیحات فروش</p>
         <i className="fa-solid fa-comment"></i>
-      </button>
+      </button> */}
       {props.canEdit ? (
         showDisc ? (
           <button type="button" className="product-table-btn">

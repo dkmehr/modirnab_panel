@@ -274,7 +274,7 @@ root.render(
           path="/setOrders"
           element={
             <Layout>
-              <OrderHolder lang={"fa"} />
+              <OrderHolder lang={lang} />
             </Layout>
           }
         />

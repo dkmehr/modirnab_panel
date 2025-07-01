@@ -38529,3 +38529,26 @@ table {
 .receivedTr {
   background-color: lightgreen !important;
 }
+.react-modern-calendar-datepicker__day {
+  color: #222 !important;
+  font-size: 1rem !important;
+  font-family: Tahoma, Arial, sans-serif !important;
+  opacity: 1 !important;
+}
+.price-edit-input {
+  width: 100px;
+  border: none;
+  background-color: white !important;
+  border-radius: 0.5rem;
+  outline: none;
+  text-align: center;
+  border: 1px solid var(--gold);
+  height: 35px;
+}
+.price-edit-input {
+  width: 90px !important;
+  height: 35px !important;
+  cursor: unset;
+  padding: 0.2rem;
+  border-radius: 0.2rem !important;
+}

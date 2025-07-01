@@ -109,37 +109,37 @@ function OrderHolder(props) {
         }
       );
   }, [user, tab, Pages, Search, Date]);
-  useEffect(() => {
-    const postOptions = {
-      method: "get",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token && token.token,
-        userId: token && token.userId,
-      },
-    };
-    fetch(env.siteApi + "/panel/faktor/list-filters-panel", postOptions)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          if (result) {
-            // setUser(result.defaultUser && result.defaultUser);
-            if (token.profileCode == "sale") {
-              setFilters(result);
-              if (result.defaultUser && result.defaultUser.CustomerID) {
-                setPayValue(3);
-              }
-            } else if (result.error) {
-            } else {
-              setFilters(result);
-            }
-          } else setFilters("");
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }, []);
+  // useEffect(() => {
+  //   const postOptions = {
+  //     method: "get",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "x-access-token": token && token.token,
+  //       userId: token && token.userId,
+  //     },
+  //   };
+  //   fetch(env.siteApi + "/panel/faktor/list-filters-panel", postOptions)
+  //     .then((res) => res.json())
+  //     .then(
+  //       (result) => {
+  //         if (result) {
+  //           // setUser(result.defaultUser && result.defaultUser);
+  //           if (token.profileCode == "sale") {
+  //             setFilters(result);
+  //             if (result.defaultUser && result.defaultUser.CustomerID) {
+  //               setPayValue(3);
+  //             }
+  //           } else if (result.error) {
+  //           } else {
+  //             setFilters(result);
+  //           }
+  //         } else setFilters("");
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       }
+  //     );
+  // }, []);
   useEffect(() => {
     if (!appFilter) return;
     const postOptions = {
@@ -254,7 +254,7 @@ function OrderHolder(props) {
         {cart ? (
           <Paging
             content={cart.faktors}
-            size={cart.faktors.length}
+            size={cart.size}
             filters={Pages}
             lang={props.lang}
             setFilters={handleFilterChange}
