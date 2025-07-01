@@ -69,7 +69,7 @@ function Orders(props) {
           } else {
             setLoading(0);
             setContent("");
-            setContent(result.data);
+            setContent(result.faktors);
             setContentSize(result.size);
             setError("");
             setStatusList(result.status);

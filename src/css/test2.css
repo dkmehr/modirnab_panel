@@ -38214,7 +38214,8 @@ table {
   }
   .DatePicker__calendarcontainer {
     z-index: 100;
-   
+    background-color: red !important;
+    min-height:330px !important;
   }
 }
 .add-discount {

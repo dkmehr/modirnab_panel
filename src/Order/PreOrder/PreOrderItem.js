@@ -6,10 +6,12 @@ import env, {
   normalPriceRound,
 } from "../../env";
 import tabletrans from "../../translate/tables";
+import PostReq from "../../utils/PostReq";
 function PreOrderItem(props) {
   const token = props.token;
   const data = props.data;
   const [showDetail, setDetail] = useState(0);
+  const [DetailData, setDetailData] = useState();
   const [LinkShare, setLinkShare] = useState("");
   const [ShowReorder, setShowReorder] = useState(0);
   const [PayValue, setPayValue] = useState();
@@ -37,13 +39,25 @@ function PreOrderItem(props) {
         }
       );
   };
-
+  const HandleDetail = () => {
+    if (showDetail) {
+      setDetail(0);
+    } else {
+      setDetail(1);
+      FetchFaktor(data.faktorNo);
+    }
+  };
+  const FetchFaktor = async (value) => {
+    const result = await PostReq({
+      method: "Post",
+      url: "/panel/faktor/fetch-faktor",
+      body: { faktorNo: value },
+    });
+    setDetailData(result.data.items);
+  };
   return (
     <div className="order-wrapper">
-      <div
-        className="border-title"
-        // onClick={() => (showDetail ? setDetail(0) : setDetail(1))}
-      >
+      <div className="border-title" onClick={HandleDetail}>
         <div className="bu-name">
           {data ? (
             <div className="col">
@@ -126,36 +140,12 @@ function PreOrderItem(props) {
                 <th>
                   <p>{tabletrans.productName["persian"]}</p>
                 </th>
-                <th>
-                  <p>{tabletrans.brand["persian"]}</p>
-                </th>
-                <th>
-                  <p>{tabletrans.model["persian"]}</p>
-                </th>
-                <th>
-                  <p>{tabletrans.color["persian"]}</p>
-                </th>
-                <th>
-                  <p>{tabletrans.km["persian"]}</p>
-                </th>
-                <th>
-                  <p>{tabletrans.gear["persian"]}</p>
-                </th>
-                <th>
-                  <p>{tabletrans.bodyColor["persian"]}</p>
-                </th>
-                <th>
-                  <p>{tabletrans.enterDate["persian"]}</p>
-                </th>
-                <th>
-                  <p>{tabletrans.ensurence["persian"]}</p>
-                </th>
-                <th>
-                  <p>{tabletrans.branch["persian"]}</p>
-                </th>
 
                 <th>
-                  <p>70%</p>
+                  <p>{tabletrans.unitprice["persian"]}</p>
+                </th>
+                <th>
+                  <p>{tabletrans.quantity["persian"]}</p>
                 </th>
                 <th>
                   <p>{tabletrans.price["persian"]}</p>
@@ -163,8 +153,8 @@ function PreOrderItem(props) {
               </tr>
             </thead>
             <tbody>
-              {data.cartItems &&
-                data.cartItems.map((item, i) => (
+              {DetailData &&
+                DetailData.map((item, i) => (
                   <tr key={i}>
                     <td data-cell="ردیف">
                       <p>{i + 1}</p>
@@ -172,56 +162,18 @@ function PreOrderItem(props) {
                     <td data-cell="شرح کالا">
                       <div className="product-title">
                         <div className="product-name">
-                          <p className="name">{item.productDetail[0].title}</p>
+                          <p className="name">{item.title}</p>
                           <p className="email">{item.sku}</p>
                         </div>
                       </div>
                     </td>
-
-                    <td data-cell="برند">
-                      <p>{item.productDetail[0].brand}</p>
+                    <td data-cell="قیمت واحد">
+                      <p>{normalPriceCount(item.unitPrice)}</p>
+                    </td>
+                    <td data-cell="تعداد">
+                      <p>{item.count}</p>
                     </td>
 
-                    <td data-cell="مدل">
-                      <p>{item.productDetail[0].model}</p>
-                    </td>
-                    <td data-cell="رنگ">
-                      <p>
-                        {item.productDetail[0].filters &&
-                          item.productDetail[0].filters.color}
-                      </p>
-                    </td>
-                    <td data-cell="کارکرد">
-                      <p>{item.productDetail[0].km}</p>
-                    </td>
-                    <td data-cell="گیربکس">
-                      <p>
-                        {item.productDetail[0].filters &&
-                          item.productDetail[0].filters.gear}
-                      </p>
-                    </td>
-                    <td data-cell="رنگشدگی">
-                      <p>{item.productDetail[0].description}</p>
-                    </td>
-                    <td data-cell="تاریخ ورود">
-                      <p>{item.productDetail[0].enterDate}</p>
-                    </td>
-                    <td data-cell="بیمه">
-                      <p>{item.productDetail[0].bimeDate}</p>
-                    </td>
-                    <td data-cell="شعبه">
-                      <p>
-                        {item.productDetail[0].filters &&
-                          item.productDetail[0].filters.branch}
-                      </p>
-                    </td>
-                    <td data-cell="70%">
-                      <p>
-                        {normalPriceCount(
-                          Math.ceil(Number(item.price ? item.price : 0) * 0.7)
-                        )}
-                      </p>
-                    </td>
                     <td data-cell="قیمت">
                       <p>{normalPriceCount(item.price)}</p>
                     </td>

@@ -7,6 +7,10 @@ const tabletrans = {
     english: "Popups",
     persian: "پاپ آپ",
   },
+  unitprice: {
+    english: "unitprice",
+    persian: "قیمت واحد",
+  },
   newCu: {
     english: "New Customers",
     persian: "مشتریان جدید",

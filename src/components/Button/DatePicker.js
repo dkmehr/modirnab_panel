@@ -38,7 +38,6 @@ function StyleDatePicker(props) {
       inputPlaceholder={props.title}
       shouldHighlightWeekends
       locale={props.local} // add this
-      selectRange={true}
     />
   );
 }

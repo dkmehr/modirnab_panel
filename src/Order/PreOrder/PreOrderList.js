@@ -14,15 +14,19 @@ function PreOrderHolder(props) {
       <section className="orders-sec">
         <div className="title">
           <p>سفارشات</p>
-          <StyleDatePicker
-            title={tabletrans.selectDate[props.lang.lang]}
-            class="filterComponent"
-            direction={props.lang.dir}
-            local={props.lang.dir === "ltr" ? "en" : "fa"}
-            action={(e) => props.setDate(e)}
-          />
-          <div className="orders-total">
-            <p>تعداد سفارشات : {cart.length}</p>
+          <div class="serach-input">
+            <StyleDatePicker
+              title={tabletrans.selectDate[props.lang.lang]}
+              class="filterComponent"
+              direction={props.lang.dir}
+              local={props.lang.dir === "ltr" ? "en" : "fa"}
+              action={(e) => props.setDate(e)}
+            />
+          </div>
+          <div className="orders-total" style={{ minWidth: "fit-content" }}>
+            <p style={{ whiteSpace: "nowrap" }}>
+              تعداد سفارشات : {cart.length}
+            </p>
           </div>
         </div>
         {cart.map((cart, i) => (
