@@ -148,6 +148,9 @@ function PreOrderItem(props) {
                   <p>{tabletrans.quantity["persian"]}</p>
                 </th>
                 <th>
+                  <p>{tabletrans.discount["persian"]}</p>
+                </th>
+                <th>
                   <p>{tabletrans.price["persian"]}</p>
                 </th>
               </tr>
@@ -174,6 +177,9 @@ function PreOrderItem(props) {
                       <p>{item.count}</p>
                     </td>
 
+                    <td data-cell="تخفیف">
+                      <p>{item.discount ? item.discount + "%" : ""}</p>
+                    </td>
                     <td data-cell="قیمت">
                       <p>{normalPriceCount(item.price)}</p>
                     </td>
