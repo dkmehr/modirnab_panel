@@ -140,7 +140,10 @@ function OrderHeader(props) {
                 //   opacity: customer.canSubmit ? 1 : 0.5,
                 // }}
               >
-                <p className="bu-name">
+                <p
+                  className="bu-name"
+                  style={{ fontSize: "1rem", fontWeight: "300" }}
+                >
                   {customer.username}
 
                   {customer.agent ? (
@@ -153,13 +156,13 @@ function OrderHeader(props) {
                   )}
                 </p>
                 <div className="info-holder col">
-                  <span>
+                  {/* <span>
                     <i
                       className="fa-solid fa-credit-card no-font id-icon"
                       aria-hidden="true"
                     ></i>
                     {customer.meliCode ? customer.meliCode : "........"}
-                  </span>
+                  </span> */}
                   <span>
                     <i
                       className="fa-solid fa-phone no-font id-icon"
@@ -167,20 +170,20 @@ function OrderHeader(props) {
                     ></i>
                     {customer.phone ? customer.phone : "........"}
                   </span>
-                  <span>
+                  {/* <span>
                     <i
                       className="fa-solid fa-certificate no-font id-icon"
                       aria-hidden="true"
                     ></i>
                     {customer.roleId ? customer.roleId : "........"}
-                  </span>
-                  <span>
+                  </span> */}
+                  {/* <span>
                     <i
                       className="fa-solid fa-location-arrow no-font id-icon"
                       aria-hidden="true"
                     ></i>
                     {customer.PostalCode ? customer.PostalCode : "........"}
-                  </span>
+                  </span> */}
                 </div>
                 <p className="bu-address">
                   {customer.Address ? customer.Address : "-"}

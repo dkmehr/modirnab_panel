@@ -225,7 +225,7 @@ function OrderHolder(props) {
             cart={cart && cart}
             setCart={setCart}
             setError={setError}
-            cartDetail={cart && cart.qCartDetail}
+            cartDetail={cart && cart.cartDetail}
             setPrintPop={setPrintPop}
             AllCart={cart && cart}
           />
@@ -253,8 +253,8 @@ function OrderHolder(props) {
 
         {cart ? (
           <Paging
-            content={cart}
-            size={cart.size}
+            content={cart.faktors}
+            size={cart.faktors.length}
             filters={Pages}
             lang={props.lang}
             setFilters={handleFilterChange}

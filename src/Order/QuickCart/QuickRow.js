@@ -93,7 +93,7 @@ function QuickRow(props) {
   const [showRemove, setShowRemove] = useState();
   const removeItem = () => {
     const postOptions = {
-      method: "DELETE",
+      method: "post",
       headers: {
         "Content-Type": "application/json",
         "x-access-token": token && token.token,
@@ -105,7 +105,7 @@ function QuickRow(props) {
             ? user.Code
             : user._id
           : token && token.userId,
-        cartID: data._id,
+        id: data._id,
       }),
     };
     console.log(postOptions);

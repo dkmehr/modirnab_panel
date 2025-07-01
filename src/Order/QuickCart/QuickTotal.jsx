@@ -43,7 +43,7 @@ function QuickTotal(props) {
     };
     //console.log(postOptions)
     fetch(
-      env.siteApi + `/panel/${tab ? "quote" : "faktor"}/quick-to-cart`,
+      env.siteApi + `/panel/${tab ? "quote" : "faktor"}/cart-to-faktor`,
       postOptions
     )
       .then((res) => res.json())
@@ -55,6 +55,7 @@ function QuickTotal(props) {
               () => props.setError({ message: "", color: "brown" }),
               5000
             );
+            setLoading(0);
           } else {
             props.setError({ message: "کالا اضافه شد", color: "green" });
             setTimeout(
@@ -84,31 +85,31 @@ function QuickTotal(props) {
   else
     return (
       <div className="total-amount">
-        {/* <div className="table">
+        <div className="table">
           <div className="t-wrapper">
             <p>تعداد</p>
-            <p>{qCart.totalCount}</p>
+            <p>{qCart.cartCount}</p>
           </div>
-          <div className="t-wrapper">
+          {/* <div className="t-wrapper">
             <p>مجموع فاکتور</p>
             <p>{normalPriceCount(qCart.totalFee, 1)}</p>
-          </div>
+          </div> */}
           <div className="t-wrapper">
             <p>تخفیف</p>
             <p>
-              {normalPriceCount(qCart.totalDiscount.toString().split(".")[0]) ||
+              {normalPriceCount(qCart.cartDiscount.toString().split(".")[0]) ||
                 "-"}
             </p>
           </div>
-          <div className="t-wrapper">
+          {/* <div className="t-wrapper">
             <p>مالیات</p>
             <p>{normalPriceRound(qCart.totalTax)}</p>
-          </div>
+          </div> */}
           <div className="t-wrapper">
             <p>مبلغ کل </p>
-            <p>{normalPriceRound(qCart.totalPrice)}</p>
+            <p>{normalPriceRound(qCart.cartPrice) || "-"}</p>
           </div>
-        </div> */}
+        </div>
 
         {props.action ? (
           <></>
@@ -117,30 +118,6 @@ function QuickTotal(props) {
             {loading ? (
               <button className="product-table-btn temp-btn">
                 <p>در حال پردازش</p>
-              </button>
-            ) : props.tab ? (
-              <button
-                ref={focusBtn}
-                onKeyDown={(e) =>
-                  e.keyCode === 13
-                    ? setPopUp({
-                        action: true,
-                        title: "ثبت پیش فاکتور",
-                        print: false,
-                      })
-                    : null
-                }
-                type="button"
-                className="product-table-btn temp-btn"
-                onClick={() =>
-                  setPopUp({
-                    action: true,
-                    title: "ثبت پیش فاکتور",
-                    print: false,
-                  })
-                }
-              >
-                <p>ثبت پیش فاکتور</p>
               </button>
             ) : (
               <>
