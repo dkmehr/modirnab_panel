@@ -164,9 +164,11 @@ function QuickRow(props) {
         </td>
 
         <td data-cell="شرح کالا">
-          <div className="product-title">
+          <div className="product-title" style={{ flexDirection: "row" }}>
             <div className="product-name">
-              <p className="name">{data.title}</p>
+              <p className="name" style={{ width: "100%" }}>
+                {data.title}
+              </p>
             </div>
           </div>
         </td>

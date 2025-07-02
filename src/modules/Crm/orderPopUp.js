@@ -84,6 +84,9 @@ function OrderPopUp(props) {
                         <th data-cell="ردیف">
                           <p>ردیف</p>
                         </th>
+                        <th data-cell="کد کالا">
+                          <p>کد کالا</p>
+                        </th>
                         <th data-cell="شرح">
                           <p>شرح</p>
                         </th>
@@ -97,7 +100,7 @@ function OrderPopUp(props) {
                           <p>تخفیف</p>
                         </th>
                         <th data-cell="مبلغ(ریال)">
-                          <p>ریال</p>
+                          <p>مبلغ کل</p>
                         </th>
                         <th></th>
                       </tr>
