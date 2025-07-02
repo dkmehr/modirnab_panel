@@ -107,12 +107,12 @@ function PrintCart(props) {
               <br />
               (ریال)
             </th>
-            {/* <th>
+            <th>
               تخفیف
               <br />
               (ریال)
             </th>
-            <th>
+            {/* <th>
               مالیات
               <br />
               (ریال)
@@ -131,7 +131,7 @@ function PrintCart(props) {
                 <td>{items.sku}</td>
                 <td className="centerCell">{items.count}</td>
                 <td>{normalPriceCount(items && items.unitPrice)}</td>
-                {/* <td>{normalPriceRound(items && items.discount)}</td> */}
+                <td>{items && items.discount}</td>
                 {/* <td>{normalPriceRound(items && items.tax)}</td> */}
                 <td>{normalPriceRound(items && items.price)}</td>
               </tr>
