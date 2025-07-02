@@ -6,10 +6,13 @@ import OrderQuickDetail from "./OrderComponent/OrderQuickDetail";
 import tabletrans from "../../translate/tables";
 import OrderQuickCart from "./OrderComponent/OrderQuickCart";
 import env from "../../env";
-
+import PostReq from "../../utils/PostReq";
 function OrderTableRow(props) {
   const [openOption, setOpenOption] = useState(0);
   const [checkState, setCheckState] = useState(0);
+  const [DetailData, setDetailData] = useState();
+  const [showDetail, setDetail] = useState(0);
+
   const activeAcc = props.index === props.detail;
   const order = props.order;
   const lang = props.lang;
@@ -42,10 +45,26 @@ function OrderTableRow(props) {
     }
     console.log(props.selectedOrder);
   };
+  const HandleDetail = () => {
+    if (showDetail) {
+      setDetail(0);
+    } else {
+      setDetail(1);
+      FetchFaktor(order.faktorNo);
+    }
+  };
+  const FetchFaktor = async (value) => {
+    const result = await PostReq({
+      method: "Post",
+      url: "/panel/faktor/fetch-faktor",
+      body: { faktorNo: value },
+    });
+    setDetailData(result.data.items);
+  };
   console.log(user);
   return (
     <React.Fragment>
-      <tr className={activeAcc ? "activeAccordion" : "accordion"}>
+      <tr className={showDetail ? "activeAccordion" : "accordion"}>
         <td>{props.index + 1}</td>
         <td className="checkBoxStyle">
           {order.taskInfo &&
@@ -75,9 +94,8 @@ function OrderTableRow(props) {
           <div className="cu-avatar">
             <img src="/img/avatar/avatar_1.jpg" alt="avatar" />
             <div className="cu-name">
-              <p className="name">
-                {user ? user.cName + "---" + user.sName : "---"}
-              </p>
+              <p className="name">{order.cName ? order.cName : "---"}</p>
+              <p className="name">{order.phone ? order.phone : "---"}</p>
             </div>
             {order.moreInformation ? (
               <i className="fa fa-comment-o" title={order.moreInformation}></i>
@@ -140,7 +158,7 @@ function OrderTableRow(props) {
               className={`tableIcon fas ${
                 activeAcc ? "fa-chevron-up" : "fa-chevron-down"
               }`}
-              onClick={() => props.showDetail(activeAcc ? "-1" : props.index)}
+              onClick={HandleDetail}
             ></i>
             {/* <i
               className="tableIcon fas fa-edit"
@@ -157,32 +175,31 @@ function OrderTableRow(props) {
           </div>
         </td>
       </tr>
-      {activeAcc ? (
+      {showDetail ? (
         <tr className="sub-order">
           <td colSpan="10">
-            {order ? (
+            {DetailData ? (
               <div className="sub-order-table">
-                {order &&
-                  order.items.map((item, i) => (
-                    <div className="sub-row" key={i}>
-                      <div className="sub-avatar">
-                        <div className="sub-avatar-container">
-                          <img
-                            src={env.siteApiUrl + item.thumbUrl}
-                            alt={item.sku}
-                          />
-                          <div className="sub-info">
-                            <p className="sub-name">{item.title}</p>
-                            <p className="sub-id">کد محصول: {item.sku}</p>
-                          </div>
+                {DetailData.map((item, i) => (
+                  <div className="sub-row" key={i}>
+                    <div className="sub-avatar">
+                      <div className="sub-avatar-container">
+                        <img
+                          src={env.siteApiUrl + item.productData[0].thumbUrl}
+                          alt={item.sku}
+                        />
+                        <div className="sub-info">
+                          <p className="sub-name">{item.title}</p>
+                          <p className="sub-id">کد محصول: {item.sku}</p>
                         </div>
                       </div>
-                      <div className="sub-num">{item.weight + "g"}</div>
-                      <div className="sub-price">
-                        {normalPriceCount(item.price)}
-                      </div>
                     </div>
-                  ))}
+                    <div className="sub-num">{item.count}</div>
+                    <div className="sub-price">
+                      {normalPriceCount(item.price)}
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : (
               env.loader

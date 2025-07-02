@@ -110,7 +110,7 @@ function PreOrderItem(props) {
           <i
             className="tableIcon fas fa-print"
             onClick={() =>
-              window.open("/orders/print/" + data.cartNo, "_blank")
+              window.open("/print/official/" + data.cartNo, "_blank")
             }
           ></i>
           <i

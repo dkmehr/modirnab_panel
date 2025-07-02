@@ -31,9 +31,6 @@ function QuickNew(props) {
             ? user.Code
             : user._id
           : token && token.userId,
-        date: Date.now,
-
-        id: selectedItem.ItemID,
         sku: selectedItem.sku,
         title: selectedItem.title,
         count: count ? count : 1,
