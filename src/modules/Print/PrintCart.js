@@ -46,7 +46,12 @@ function PrintCart(props) {
                     <tr>
                       <td colSpan={3} className="hesabfaItem">
                         <span>خریدار: </span>
-                        <strong> {userInfo ? userInfo.username : ""}</strong>
+                        <strong>
+                          {" "}
+                          {userInfo
+                            ? userInfo.cName + " " + userInfo.sName
+                            : ""}
+                        </strong>
                       </td>
                       <td colSpan={2} className="hesabfaItem">
                         <span>شماره تماس: </span>

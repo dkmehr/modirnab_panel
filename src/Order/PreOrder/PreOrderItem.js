@@ -110,7 +110,7 @@ function PreOrderItem(props) {
           <i
             className="tableIcon fas fa-print"
             onClick={() =>
-              window.open("/print/official/" + data.cartNo, "_blank")
+              window.open("/print/official/" + data.faktorNo, "_blank")
             }
           ></i>
           <i
@@ -120,7 +120,7 @@ function PreOrderItem(props) {
           <i
             class="fa fa-refresh"
             aria-hidden="true"
-            onClick={() => setShowReorder(data.cartNo)}
+            onClick={() => setShowReorder(data.faktorNo)}
           ></i>
         </div>
         <i
