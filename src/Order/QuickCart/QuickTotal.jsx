@@ -95,11 +95,8 @@ function QuickTotal(props) {
             <p>{normalPriceCount(qCart.fullPrice)}</p>
           </div> */}
           <div className="t-wrapper">
-            <p>تخفیف</p>
-            <p>
-              {normalPriceCount(qCart.cartDiscount.toString().split(".")[0]) ||
-                "-"}
-            </p>
+            <p>تخفیف کل</p>
+            <p>{normalPriceCount(qCart.totalDiscountCart) || "-"}</p>
           </div>
           {/* <div className="t-wrapper">
             <p>مالیات</p>

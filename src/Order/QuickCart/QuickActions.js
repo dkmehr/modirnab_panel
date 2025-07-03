@@ -13,13 +13,11 @@ function QuickActions(props) {
   const [description, setDescription] = useState(cart && cart.description);
   const [showDisc, setShowDisc] = useState(0);
   const [discount, setDiscount] = useState();
-  const [disText, setDisText] = useState(cart && cart.discount);
+  const [disText, setDisText] = useState(cart && cart.totalDiscount);
 
   const setDisFunc = (value) => {
     let intVal = value ? parseFloat(value) : 0;
-    if (intVal > 50) {
-      intVal = 50;
-    }
+
     setDisText(intVal);
   };
   useEffect(() => {
@@ -41,10 +39,7 @@ function QuickActions(props) {
       }),
     };
     console.log(postOptions);
-    fetch(
-      env.siteApi + `/panel/${tab ? "quote" : "faktor"}/update-desc`,
-      postOptions
-    )
+    fetch(env.siteApi + `/panel/faktor/update-cart-data`, postOptions)
       .then((res) => res.json())
       .then(
         (result) => {

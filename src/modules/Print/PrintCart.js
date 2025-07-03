@@ -131,7 +131,7 @@ function PrintCart(props) {
                 <td>{items.sku}</td>
                 <td className="centerCell">{items.count}</td>
                 <td>{normalPriceCount(items && items.unitPrice)}</td>
-                <td>{items && items.discount}</td>
+                <td>{normalPriceCount(items && items.discountPrice)}</td>
                 {/* <td>{normalPriceRound(items && items.tax)}</td> */}
                 <td>{normalPriceRound(items && items.price)}</td>
               </tr>
