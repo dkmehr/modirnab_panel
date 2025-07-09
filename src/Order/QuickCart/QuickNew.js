@@ -128,12 +128,22 @@ function QuickNew(props) {
         <small>{selectedItem ? selectedItem.sku : ""}</small>
       </td>
       {/* {props.LiveCount ? <td data-cell="موجودی"></td> : <></>} */}
-      <td data-cell="تعداد">
+      <td data-cell="تعداد" style={{ position: "relative" }}>
         <QuickCounter
           unit={selectedItem && selectedItem.perBox ? selectedItem.perBox : 10}
           count={count}
           setCount={setCount}
         />
+        <span
+          style={{
+            position: "absolute",
+            right: "-20px",
+            top: "25px",
+            color: "red",
+          }}
+        >
+          {selectedItem.stock}
+        </span>
       </td>
       <td data-cell="مبلغ واحد">
         {selectedItem ? normalPriceCount(selectedItem.sellPrice) : ""}

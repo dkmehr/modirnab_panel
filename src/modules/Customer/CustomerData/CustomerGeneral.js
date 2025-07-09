@@ -8,7 +8,9 @@ import ErrorAction from "../../../components/Modal/ErrorAction";
 import StyleRadio from "../../../components/Button/Radio";
 import StyleSelect from "../../../components/Button/AutoComplete";
 import DatePickerSingle from "../../../components/Button/DatePickerSingle";
-
+import Switch from "@mui/material/Switch";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 function CustomerGeneral(props) {
   const userData = props.userData;
   const token = props.token;
@@ -169,16 +171,16 @@ function CustomerGeneral(props) {
       );
   };
 
-  const activityStatusHandler = () => {
+  const activityStatusHandler = (e) => {
     setFormData((prevState) => ({
       ...prevState,
-      active: formData.active === "false" ? "true" : "false", // Toggle between "true" and "false"
+      active: e.target.checked,
     }));
   };
-  const businessStatusHandler = () => {
+  const businessStatusHandler = (e) => {
     setFormData((prevState) => ({
       ...prevState,
-      business: formData.business === "false" ? "true" : "false", // Toggle between "true" and "false"
+      business: e.target.checked,
     }));
   };
   const realOrJuridical = () => {
@@ -322,48 +324,50 @@ function CustomerGeneral(props) {
 
             <span style={{ whiteSpace: "pre-wrap" }}></span>
 
-            <div className="dense-btn" style={{ marginRight: "1rem" }}>
-              <label htmlFor="view" style={{ margin: "0" }}>
-                {/* Text indicating the radio button */}
-                {formtrans.status[props.lang]}
-              </label>
-              <input
-                className="switch-input"
-                type="checkbox"
-                id="view"
-                checked={formData.active === true || formData.active === "true"}
-                defaultChecked={
-                  userData.active === true || userData.active === "true"
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={formData.active}
+                    defaultChecked={userData.active}
+                    onChange={activityStatusHandler}
+                    inputProps={{ "aria-label": "controlled" }}
+                    color="success"
+                  />
                 }
-                onClick={activityStatusHandler}
+                label="وضعیت"
+                sx={{
+                  // Example styles:
+
+                  ".MuiFormControlLabel-label": {
+                    fontSize: "1rem",
+                    fontWeight: "800",
+                    color: "black",
+                  },
+                }}
               />
-              <label
-                htmlFor="view"
-                className={true ? "switch-label" : "switch-label disable-label"}
-              ></label>
-            </div>
-            <div className="dense-btn" style={{ marginRight: "1rem" }}>
-              <label htmlFor="business" style={{ margin: "0" }}>
-                {/* Text indicating the radio button */}
-                {"همکار"}
-              </label>
-              <input
-                className="switch-input"
-                type="checkbox"
-                id="business"
-                checked={
-                  formData.business === true || formData.business === "true"
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={formData.business}
+                    defaultChecked={userData.business}
+                    onChange={businessStatusHandler}
+                    inputProps={{ "aria-label": "controlled" }}
+                    color="success"
+                  />
                 }
-                defaultChecked={
-                  userData.business === true || userData.business === "true"
-                }
-                onClick={businessStatusHandler}
+                label="همکار"
+                sx={{
+                  // Example styles:
+
+                  ".MuiFormControlLabel-label": {
+                    fontSize: "1rem",
+                    fontWeight: "800",
+                    color: "black",
+                  },
+                }}
               />
-              <label
-                htmlFor="business"
-                className={true ? "switch-label" : "switch-label disable-label"}
-              ></label>
-            </div>
+            </FormGroup>
             {userData.cCode ? (
               <></>
             ) : (

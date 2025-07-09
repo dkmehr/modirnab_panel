@@ -58,7 +58,7 @@ function SalesQuickSearch(props) {
                   </div>
                   <div className="item-amount">
                     <p>{item.sku}</p>
-                    <p>{item.count && item.count.quantity}</p>
+                    <p>{item.stock}</p>
                   </div>
                 </div>
               </div>
