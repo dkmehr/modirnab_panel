@@ -155,7 +155,11 @@ function QuickRow(props) {
 
   return (
     <>
-      <tr className={`product-tr ${AmountState ? "red-bg" : ""}`}>
+      <tr
+        className={`product-tr ${AmountState ? "red-bg" : ""} ${
+          data.status && data.status == "quote" ? "quote-row" : ""
+        }`}
+      >
         <td data-cell="ردیف">
           <p>{props.index}</p>
         </td>

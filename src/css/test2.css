@@ -38552,3 +38552,6 @@ table {
   padding: 0.2rem;
   border-radius: 0.2rem !important;
 }
+.quote-row p{ 
+  color:darkred !important; 
+}
