@@ -142,7 +142,7 @@ function QuickNew(props) {
             color: "red",
           }}
         >
-          {selectedItem.stock ? selectedItem.stock : ""}
+          {selectedItem && selectedItem.stock ? selectedItem.stock : ""}
         </span>
       </td>
       <td data-cell="مبلغ واحد">
