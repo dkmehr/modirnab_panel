@@ -10,6 +10,7 @@ function QuickCartHolder(props) {
   const [search, setSearch] = useState();
   const [content, setContent] = useState();
   const [OrderPop, setOrderPop] = useState(0);
+  const [inPerson, setInPerson] = useState(true);
   const tab = props.tab;
   const setTab = props.setTab;
   useEffect(() => {
@@ -88,6 +89,8 @@ function QuickCartHolder(props) {
           setPayValue={props.setPayValue}
           payValue={props.payValue}
           canEdit={props.canEdit}
+          inPerson={inPerson}
+          setInPerson={setInPerson}
         />
         <QuickTotal
           tab={tab}
@@ -101,6 +104,7 @@ function QuickCartHolder(props) {
           access={props.access}
           setPrintPop={props.setPrintPop}
           setOrderPop={setOrderPop}
+          inPerson={inPerson}
         />
       </div>
     </section>

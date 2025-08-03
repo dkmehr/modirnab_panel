@@ -70,6 +70,11 @@ function ProductTableRow(props) {
 
         <td>
           <div className="order-price">
+            <p>{normalPriceCount(product.sellPrice)}</p>
+          </div>
+        </td>
+        <td>
+          <div className="order-price">
             <p>
               {product.categories &&
                 product.categories.map((cat, i) => (

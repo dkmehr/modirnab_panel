@@ -30550,7 +30550,7 @@ li.board-task {
 }
 
 .sharif-order-main .check-pay {
-  background-color: #b6b6b6;
+  background-color:orange;
 }
 
 .view-active {
@@ -38206,7 +38206,6 @@ table {
 .DatePicker {
   height: 40px;
   margin: 15px !important;
-  margin-left: auto !important;
   min-width: 225px !important;
   z-index:98 !important;
   input {

@@ -282,18 +282,7 @@ function CustomerGeneral(props) {
                 }))
               }
             />
-            <DatePickerSingle
-              title={formtrans.birthDay[props.lang]}
-              defaultValue={userData.birthDay}
-              direction={props.lang.dir}
-              local={props.lang.dir === "ltr" ? "en" : "fa"}
-              action={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  birthDay: e,
-                }))
-              }
-            />
+
             <StyleSelect
               title={formtrans.state[props.lang]}
               direction={props.direction}
@@ -321,8 +310,18 @@ function CustomerGeneral(props) {
               action={handleCityChange}
               disabled={!formData.stateId} // Disable if no state is selected
             />
-
-            <span style={{ whiteSpace: "pre-wrap" }}></span>
+            <DatePickerSingle
+              title={formtrans.birthDay[props.lang]}
+              defaultValue={userData.birthDay}
+              direction={props.lang.dir}
+              local={props.lang.dir === "ltr" ? "en" : "fa"}
+              action={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  birthDay: e,
+                }))
+              }
+            />
 
             <FormGroup>
               <FormControlLabel
@@ -368,7 +367,8 @@ function CustomerGeneral(props) {
                 }}
               />
             </FormGroup>
-            {userData.cCode ? (
+            <span style={{ whiteSpace: "pre-wrap" }}></span>
+            {/* {userData.cCode ? (
               <></>
             ) : (
               <div
@@ -378,7 +378,7 @@ function CustomerGeneral(props) {
               >
                 فعال سازی مشتری
               </div>
-            )}
+            )} */}
             <span style={{ whiteSpace: "pre-wrap" }}></span>
             <div className="info-input">
               <label htmlFor="address">{formtrans.address[props.lang]}</label>

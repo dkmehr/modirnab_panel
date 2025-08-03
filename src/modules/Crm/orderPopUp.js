@@ -49,11 +49,15 @@ function OrderPopUp(props) {
               <span>{data.cName} </span>
               <sub>({data.phone})</sub>
               <span> شماره سفارش: {data.faktorNo}</span>
+              <span
+                style={data.waitPay ? { color: "green" } : { color: "orange" }}
+              >
+                {" "}
+                وضعیت پرداخت: {data.waitPay ? "پرداخت شده" : "در انتظار پرداخت"}
+              </span>
               <div className="address-status">
                 آدرس:
-                {props.customer && props.customer[0]
-                  ? props.customer[0].Address
-                  : "-"}{" "}
+                {content.userDetail ? content.userDetail.Address : "-"}
               </div>
             </div>
             <div className="orderModalDate">

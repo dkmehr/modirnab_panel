@@ -3,11 +3,7 @@ import DataModal from "../../components/Modal/dataModal";
 import env from "../../env";
 
 function QuickActions(props) {
-  const tab = props.tab;
-  const token = props.token;
-  const cart = props.cart;
-  console.log(tab);
-  //console.log(cart.discount)
+  const { tab, token, cart, setInPerson, inPerson } = props;
   const [showDesc, setShowDesc] = useState(0);
   const [showDescSale, setShowDescSale] = useState(0);
   const [description, setDescription] = useState(cart && cart.description);
@@ -111,28 +107,26 @@ function QuickActions(props) {
   }, [props.payValue]);
   return (
     <div className="btn-wrapper">
-      {/* {props.canEdit ? (
+      {props.canEdit ? (
         <button type="button" className="product-table-btn pay-metod-btn">
           <div
-            className={props.payValue == 3 ? "cash-pay display-on" : "cash-pay"}
-            onClick={() => props.setPayValue(4)}
+            className={inPerson ? "cash-pay display-on" : "cash-pay"}
+            onClick={() => setInPerson(false)}
           >
-            <p>نقدی</p>
-            <i className="fa-solid fa-money"></i>
+            <p>تحویل حضوری</p>
+            <i class="fa fa-user-o" aria-hidden="true"></i>
           </div>
           <div
-            className={
-              props.payValue == 4 ? "check-pay display-on" : "check-pay"
-            }
-            onClick={() => props.setPayValue(3)}
+            className={!inPerson ? "check-pay display-on" : "check-pay"}
+            onClick={() => setInPerson(true)}
           >
-            <p>اقساط</p>
-            <i className="fa-solid fa-credit-card"></i>
+            <p>ارسال با پست</p>
+            <i class="fa fa-truck" aria-hidden="true"></i>
           </div>
         </button>
       ) : (
         <></>
-      )} */}
+      )}
       <button
         type="button"
         className="product-table-btn"

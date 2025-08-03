@@ -7,6 +7,7 @@ function QuickTotal(props) {
   const qCart = props.data;
   const user = props.user;
   const tab = props.tab;
+  const inPerson = props.inPerson;
   const setPrintPop = props.setPrintPop;
   const [loading, setLoading] = useState(0);
 
@@ -39,6 +40,7 @@ function QuickTotal(props) {
             : user._id
           : token && token.userId,
         isQuote,
+        inPerson,
       }),
     };
     //console.log(postOptions)

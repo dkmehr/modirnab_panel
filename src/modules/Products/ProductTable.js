@@ -26,7 +26,7 @@ function ProductTable(props) {
     <table>
       <thead>
         <tr>
-          <th style={{width:"30px"}}>
+          <th style={{ width: "30px" }}>
             <p>ردیف</p>
           </th>
           <th className="checkBoxStyle">
@@ -39,6 +39,10 @@ function ProductTable(props) {
           </th>
           <th>
             <p>{tabletrans.productName[lang]}</p>
+            <i></i>
+          </th>
+          <th>
+            <p>{tabletrans.price[lang]}</p>
             <i></i>
           </th>
           <th>
