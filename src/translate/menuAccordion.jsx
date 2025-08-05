@@ -1,9 +1,9 @@
 const menutrans = {
   title: {
-    english: "Faha",
-    persian: "فاحا",
+    english: "ModirNab",
+    persian: "مدیرناب",
     icon: "fa-eercast",
-    href: "https://fahascrubs.com/",
+    href: "https://modirnab.com/",
   },
   menu: [
     {
