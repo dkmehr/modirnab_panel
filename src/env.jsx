@@ -1,16 +1,16 @@
 const env = {
   // siteApi:'http://localhost:6026/api',
-  siteApi: "https://admin.fahascrubs.com/api",
+  siteApi: "https://admin.modirnab.com/api",
   // siteApi: "https://demofahaadmin.dkmehr.com/api",
 
   // siteApiUrl:'http://localhost:6026',
-  siteApiUrl: "https://admin.fahascrubs.com",
+  siteApiUrl: "https://admin.modirnab.com",
   // siteApiUrl: "https://demofahaadmin.dkmehr.com",
-  cookieName: "faha-login",
+  cookieName: "modirnab-login",
   //cookieName:'panel-login',
   //cookieName:'mehr-login',
 
-  cookieLang: "faha-lang",
+  cookieLang: "modirnab-lang",
   //cookieLang:'panel-lang',
   //cookieLang:'mehr-lang',
 
